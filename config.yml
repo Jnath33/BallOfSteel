@@ -1,0 +1,57 @@
+ballOfSteel:
+  nomberOfPlayerParTeam: 1
+  world: "world1"
+  time:
+  coordonee:
+    start:
+      x: 10000
+      y: 50
+      z: 0
+    finish:
+      x: 
+      y: 
+      z: 
+  equipe:
+    yellow:
+      coordonee:
+        spawn:
+          x: 70
+          y: 50
+          z: 70
+        coffre:
+          x:
+          y:
+          z:
+    red:
+      coordonee:
+        spawn:
+          x: 70
+          y: 50
+          z: -70
+        coffre:
+          x: 
+          y: 
+          z: 
+    blue:
+      coordonee:
+        spawn:
+          x: -70
+          y: 50
+          z: -70
+        coffre:
+          x:
+          y:
+          z:
+    green:
+      coordonee:
+        spawn:
+          x: 70
+          y: 50
+          z: -70
+        coffre:
+          x:
+          y:
+          z:
+
+
+       
