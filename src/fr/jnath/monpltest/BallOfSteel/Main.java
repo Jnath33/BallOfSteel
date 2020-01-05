@@ -42,7 +42,7 @@ public class Main extends JavaPlugin {
 	public void addPlayerOnTeam(Player player, String team){
 		System.out.println("test 43 M");
 		String curentPlayerTeam = "non";
-		System.out.println(curentPlayerTeam);	
+		System.out.println(curentPlayerTeam);
 		getPlayersTeam().containsKey(player);
 		System.out.println(curentPlayerTeam);	
 		if (getPlayersTeam().containsKey(player)) {
