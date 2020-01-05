@@ -135,20 +135,14 @@ public class GplayerListener implements Listener {
 		Player player = event.getPlayer();
 		Material itM = event.getMaterial();
 		ItemStack it= event.getItem();
-		System.out.println("test 138 L");
 		if(itM == Material.WOOL) {
-			System.out.println("test 140 L");
 			if(it.getItemMeta().getDisplayName()=="§l§4Red") {
-				System.out.println("red");
 				main.addPlayerOnTeam(player, "red");
 			}else if(it.getItemMeta().getDisplayName()=="§l§1Blue") {
-				System.out.println("blue");
 				main.addPlayerOnTeam(player, "blue");
 			}else if(it.getItemMeta().getDisplayName()=="§l§2Green") {
-				System.out.println("green");
 				main.addPlayerOnTeam(player, "green");				
 			}else if(it.getItemMeta().getDisplayName()=="§l§eYellow") {
-				System.out.println("yellow");
 				main.addPlayerOnTeam(player, "yellow");
 			}
 		}

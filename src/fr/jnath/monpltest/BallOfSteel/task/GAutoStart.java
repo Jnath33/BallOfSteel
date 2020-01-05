@@ -33,9 +33,9 @@ public class GAutoStart extends BukkitRunnable{
 				//passage des joueur en survie
 				pls.setGameMode(GameMode.SURVIVAL);
 				pls.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("ballOfSteel.world")),
-						main.getConfig().getDouble("ballOfSteel.equipe."+"red"+".coordonee.spawn.x"),
-						main.getConfig().getDouble("ballOfSteel.equipe."+"red"+".coordonee.spawn.y"), 
-						main.getConfig().getDouble("ballOfSteel.equipe."+"red"+".coordonee.spawn.x")));
+						main.getConfig().getDouble("ballOfSteel.equipe."+main.getPlayersTeam().get(pls)+".coordonee.spawn.x"),
+						main.getConfig().getDouble("ballOfSteel.equipe."+main.getPlayersTeam().get(pls)+".coordonee.spawn.y"), 
+						main.getConfig().getDouble("ballOfSteel.equipe."+main.getPlayersTeam().get(pls)+".coordonee.spawn.x")));
 				pls.getInventory().clear();
 				pls.getInventory().setItem(8, new ItemStack(Material.GLASS, 64));
 				pls.updateInventory();

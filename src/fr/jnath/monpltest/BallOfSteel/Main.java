@@ -1,6 +1,7 @@
 package fr.jnath.monpltest.BallOfSteel;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -10,9 +11,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 import fr.jnath.monpltest.BallOfSteel.Listener.GplayerListener;
 
 public class Main extends JavaPlugin {
-	
+	Comparator<Player> comparePlayerbyName = new Comparator<Player>() {
+		@Override
+		public int compare(Player o1, Player o2) {
+			return o1.getName().compareTo(o2.getName());
+		}
+	};
 	private List<Player> playersOnWating = new ArrayList<>();
-	private TreeMap<Player, String> _team = new TreeMap<Player, String>();
+	private TreeMap<Player, String> _team = new TreeMap<Player,String>(comparePlayerbyName);
  	private Gstate state;
  	private Integer playerParTeamDefaut;
  	private TreeMap<String, Integer> _playerParTeam = new TreeMap<String, Integer>();
@@ -22,6 +28,7 @@ public class Main extends JavaPlugin {
 		this.state = state;
 	}
 	
+ 	
 	
 	public boolean isState(Gstate state) {
 		return state==this.state;
@@ -40,17 +47,10 @@ public class Main extends JavaPlugin {
 	}
 	
 	public void addPlayerOnTeam(Player player, String team){
-		System.out.println("test 43 M");
 		String curentPlayerTeam = "non";
-		System.out.println(curentPlayerTeam);
-		getPlayersTeam().containsKey(player);
-		System.out.println(curentPlayerTeam);	
 		if (getPlayersTeam().containsKey(player)) {
-			System.out.println(curentPlayerTeam+2);
 			curentPlayerTeam = getPlayersTeam().get(player);
-			System.out.println(curentPlayerTeam);
 		}
-		System.out.println(curentPlayerTeam);
 		if ("red"==team) {
 			System.out.println("test red M");
 			if (_playerParTeam.get("red")<playerParTeamDefaut) {
