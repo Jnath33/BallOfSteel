@@ -20,7 +20,7 @@ public class Main extends JavaPlugin {
 	private List<Player> playersOnWating = new ArrayList<>();
 	private TreeMap<Player, String> _team = new TreeMap<Player,String>(comparePlayerbyName);
  	private Gstate state;
- 	private Integer playerParTeamDefaut;
+ 	public Integer playerParTeamDefaut;
  	private TreeMap<String, Integer> _playerParTeam = new TreeMap<String, Integer>();
  	
  	
@@ -38,9 +38,9 @@ public class Main extends JavaPlugin {
 		return playersOnWating;
 	}
 	
-//	public TreeMap<String, Integer> _playerParTeam{
-//		return _playerParTeam;
-//	}
+	public TreeMap<String, Integer> playerParTeam(){
+		return _playerParTeam;
+	}
 	
 	public TreeMap<Player, String> getPlayersTeam(){
 		return _team;
@@ -52,7 +52,6 @@ public class Main extends JavaPlugin {
 			curentPlayerTeam = getPlayersTeam().get(player);
 		}
 		if ("red"==team) {
-			System.out.println("test red M");
 			if (_playerParTeam.get("red")<playerParTeamDefaut) {
 				getPlayersTeam().put(player, "red");
 				_playerParTeam.put("red", _playerParTeam.get("red")+1);
@@ -65,7 +64,6 @@ public class Main extends JavaPlugin {
 			}
 		}
 		else if ("blue"==team) {
-			System.out.println("test blue M");
 			if (_playerParTeam.get("blue")<playerParTeamDefaut) {
 				getPlayersTeam().put(player, "blue");
 				_playerParTeam.put("blue", _playerParTeam.get("blue")+1);
@@ -78,7 +76,6 @@ public class Main extends JavaPlugin {
 			}
 		}
 		else if ("green"==team) {
-			System.out.println("test green M");
 			if (_playerParTeam.get("green")<playerParTeamDefaut) {
 				getPlayersTeam().put(player, "green");
 				_playerParTeam.put("green", _playerParTeam.get("green")+1);
@@ -91,9 +88,8 @@ public class Main extends JavaPlugin {
 			}
 		}
 		else if ("yellow"==team) {
-			System.out.println("test yellow M");
 			if (_playerParTeam.get("yellow")<playerParTeamDefaut) {
-				getPlayersTeam().put(player, "red");
+				getPlayersTeam().put(player, "yellow");
 				_playerParTeam.put("yellow", _playerParTeam.get("yellow")+1);
 				rmPlayerOnTeam(player, curentPlayerTeam);
 				return;

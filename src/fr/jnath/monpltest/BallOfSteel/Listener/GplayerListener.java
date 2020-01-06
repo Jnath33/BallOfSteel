@@ -85,7 +85,6 @@ public class GplayerListener implements Listener {
 		
 		player.setAllowFlight(false);
 		player.setDisplayName("§c"+player.getName()+"§7");
-		player.setDisplayName("§c"+player.getName());
 		if(main.isState(Gstate.WAITING) && main.getPlayers().size() == playerMax-3) {
 			GAutoStart autoStart = new GAutoStart(main);
 			autoStart.runTaskTimer(main, 0, 20);
@@ -116,9 +115,9 @@ public class GplayerListener implements Listener {
 			// cette partie de code servira quand les sélection de team et les getTeam marcheron
 			
 			player.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("ballOfSteel.world")),
-					main.getConfig().getDouble("ballOfSteel.equipe."+"red"+".coordonee.x"),
-					main.getConfig().getDouble("ballOfSteel.equipe."+"red"+".coordonee.y"), 
-					main.getConfig().getDouble("ballOfSteel.equipe."+"red"+".coordonee.z")));
+					main.getConfig().getDouble("ballOfSteel.equipe."+main.getPlayersTeam().get(player)+".coordonee.spawn.x"),
+					main.getConfig().getDouble("ballOfSteel.equipe."+main.getPlayersTeam().get(player)+".coordonee.spawn.y"), 
+					main.getConfig().getDouble("ballOfSteel.equipe."+main.getPlayersTeam().get(player)+".coordonee.spawn.z")));
 			event.setCancelled(true);
 		}
 		player.setCustomName("§c"+player.getName());

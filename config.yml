@@ -25,9 +25,9 @@ ballOfSteel:
     red:
       coordonee:
         spawn:
-          x: 70
+          x: -70
           y: 50
-          z: -70
+          z: 70
         coffre:
           x: 
           y: 
