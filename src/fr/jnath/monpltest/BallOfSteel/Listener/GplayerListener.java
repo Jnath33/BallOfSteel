@@ -85,7 +85,7 @@ public class GplayerListener implements Listener {
 		
 		player.setAllowFlight(false);
 		player.setDisplayName("§c"+player.getName()+"§7");
-		if(main.isState(Gstate.WAITING) && main.getPlayers().size() == playerMax-3) {
+		if(main.isState(Gstate.WAITING) && main.getPlayers().size() == playerMax) {
 			GAutoStart autoStart = new GAutoStart(main);
 			autoStart.runTaskTimer(main, 0, 20);
 			main.setState(Gstate.STARTING);
@@ -111,7 +111,7 @@ public class GplayerListener implements Listener {
 		if(player.getHealth() < event.getDamage()) {
 			player.setHealth(20);
 			player.getInventory().clear();
-			Bukkit.broadcastMessage("§c Jnath §7 viens de mourir.");
+			Bukkit.broadcastMessage("§c"+player.getName()+"§7 viens de mourir.");
 			// cette partie de code servira quand les sélection de team et les getTeam marcheron
 			
 			player.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("ballOfSteel.world")),
