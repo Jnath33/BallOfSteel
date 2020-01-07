@@ -117,19 +117,25 @@ public class Main extends JavaPlugin {
 		}
 		return;
 	}
-	@Override
-	public void onEnable() {
-		saveDefaultConfig();
+	
+	public void restart() {
 		setState(Gstate.WAITING);
 		getPlayersTeam().clear();
-		System.out.println("Plugin de ball of steel actif");
-		org.bukkit.plugin.PluginManager pm = getServer().getPluginManager();
-		pm.registerEvents(new GplayerListener(this), this);
-		playerParTeamDefaut = this.getConfig().getInt("ballOfSteel.nomberOfPlayerParTeam");
+		getPlayers().clear();
+		_playerParTeam.clear();
 		_playerParTeam.put("red", 0);
 		_playerParTeam.put("green", 0);
 		_playerParTeam.put("blue", 0);
 		_playerParTeam.put("yellow", 0);
+	}
+	@Override
+	public void onEnable() {
+		saveDefaultConfig();
+		System.out.println("Plugin de ball of steel actif");
+		org.bukkit.plugin.PluginManager pm = getServer().getPluginManager();
+		pm.registerEvents(new GplayerListener(this), this);
+		playerParTeamDefaut = this.getConfig().getInt("ballOfSteel.nomberOfPlayerParTeam");
+		restart();
 		}
 	
 	
