@@ -53,6 +53,10 @@ public class GAutoStart extends BukkitRunnable{
 				System.out.println(main.getConfig().getDouble("ballOfSteel.equipe."+main.getPlayersTeam().get(pls)+".coordonee.spawn.y"));
 				System.out.println(main.getConfig().getDouble("ballOfSteel.equipe."+main.getPlayersTeam().get(pls)+".coordonee.spawn.z"));
 				//tp au spawn
+				pls.setBedSpawnLocation(new Location(Bukkit.getWorld(main.getConfig().getString("ballOfSteel.world")),
+						main.getConfig().getDouble("ballOfSteel.equipe."+main.getPlayersTeam().get(pls)+".coordonee.spawn.x"),
+						main.getConfig().getDouble("ballOfSteel.equipe."+main.getPlayersTeam().get(pls)+".coordonee.spawn.y"), 
+						main.getConfig().getDouble("ballOfSteel.equipe."+main.getPlayersTeam().get(pls)+".coordonee.spawn.z")));
 				pls.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("ballOfSteel.world")),
 						main.getConfig().getDouble("ballOfSteel.equipe."+main.getPlayersTeam().get(pls)+".coordonee.spawn.x"),
 						main.getConfig().getDouble("ballOfSteel.equipe."+main.getPlayersTeam().get(pls)+".coordonee.spawn.y"), 

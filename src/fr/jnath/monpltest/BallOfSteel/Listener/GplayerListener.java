@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -38,7 +39,7 @@ public class GplayerListener implements Listener {
 				main.getConfig().getDouble("ballOfSteel.coordonee.start.z"));
 		player.teleport(spawn);
 		player.getInventory().clear();
-		if(!main.isState(Gstate.WAITING)) {
+		if(!((main.isState(Gstate.WAITING)||main.isState(Gstate.STARTING)))) {
 			player.setGameMode(GameMode.SPECTATOR);
 			player.sendMessage("La partie est deja lancer !");
 			event.setJoinMessage(null);
@@ -85,7 +86,7 @@ public class GplayerListener implements Listener {
 		
 		player.setAllowFlight(false);
 		player.setDisplayName("§c"+player.getName()+"§7");
-		if(main.isState(Gstate.WAITING) && main.getPlayers().size() == playerMax) {
+		if(main.isState(Gstate.WAITING) && main.getPlayers().size() == playerMax-3) {
 			GAutoStart autoStart = new GAutoStart(main);
 			autoStart.runTaskTimer(main, 0, 20);
 			main.setState(Gstate.STARTING);
@@ -134,7 +135,12 @@ public class GplayerListener implements Listener {
 		Player player = event.getPlayer();
 		Material itM = event.getMaterial();
 		ItemStack it= event.getItem();
-		if(itM == Material.WOOL) {
+		Integer inventorySlot=player.getInventory().getHeldItemSlot();
+		Block itemClickedBlock = event.getClickedBlock();
+		Material itemClickedMaterial = itemClickedBlock.getType();
+		String team = main.getPlayersTeam().get(player);
+		if(it==null)return;
+		if(itM == Material.WOOL && (main.isState(Gstate.STARTING)||main.isState(Gstate.WAITING))) {
 			if(it.getItemMeta().getDisplayName()=="§l§4Red") {
 				main.addPlayerOnTeam(player, "red");
 			}else if(it.getItemMeta().getDisplayName()=="§l§1Blue") {
@@ -143,6 +149,13 @@ public class GplayerListener implements Listener {
 				main.addPlayerOnTeam(player, "green");				
 			}else if(it.getItemMeta().getDisplayName()=="§l§eYellow") {
 				main.addPlayerOnTeam(player, "yellow");
+			}
+		}
+		if(itemClickedMaterial == Material.BEDROCK && main.isState(Gstate.PLAYING)) {
+			if(itM==Material.DIAMOND) {
+				player.getInventory().clear(inventorySlot);
+				main.pointParTeam().put(team, main.pointParTeam().get(team)+it.getAmount());
+				Bukkit.broadcastMessage("l'équipe "+team+" viens d'ajouter "+it.getAmount()+" diamand il en ont maintenant "+main.pointParTeam().get(team));
 			}
 		}
 	}

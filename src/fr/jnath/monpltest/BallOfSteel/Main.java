@@ -22,6 +22,7 @@ public class Main extends JavaPlugin {
  	private Gstate state;
  	public Integer playerParTeamDefaut;
  	private TreeMap<String, Integer> _playerParTeam = new TreeMap<String, Integer>();
+ 	private TreeMap<String, Integer> _pointParTeam = new TreeMap<String, Integer>();
  	
  	
  	public void setState(Gstate state) {
@@ -36,6 +37,10 @@ public class Main extends JavaPlugin {
 	
 	public List<Player> getPlayers(){
 		return playersOnWating;
+	}
+	
+	public TreeMap<String, Integer> pointParTeam(){
+		return _pointParTeam;
 	}
 	
 	public TreeMap<String, Integer> playerParTeam(){
@@ -127,6 +132,10 @@ public class Main extends JavaPlugin {
 		_playerParTeam.put("green", 0);
 		_playerParTeam.put("blue", 0);
 		_playerParTeam.put("yellow", 0);
+		_pointParTeam.put("red", 0);
+		_pointParTeam.put("green", 0);
+		_pointParTeam.put("blue", 0);
+		_pointParTeam.put("yellow", 0);
 	}
 	@Override
 	public void onEnable() {
