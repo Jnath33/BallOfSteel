@@ -62,12 +62,16 @@ public class GAutoStart extends BukkitRunnable{
 						main.getConfig().getDouble("ballOfSteel.equipe."+main.getPlayersTeam().get(pls)+".coordonee.spawn.y"), 
 						main.getConfig().getDouble("ballOfSteel.equipe."+main.getPlayersTeam().get(pls)+".coordonee.spawn.z")));
 				
+				
 				//update de l'inventaire
 				pls.getInventory().clear();
 				pls.getInventory().setItem(8, new ItemStack(Material.GLASS, 64));
 				pls.updateInventory();
 			}
 			main.setState(Gstate.PLAYING);
+			GTimer game = new GTimer(main);
+			game.runTaskTimer(main, 0, 20);
+			
 			cancel();
 		}
 		if (timeInS==10 || timeInS<=5) {

@@ -1,8 +1,13 @@
 ballOfSteel:
   nomberOfPlayerParTeam: 1
   world: "world1"
-  time:
+  time: 1
+  range: 100
   coordonee:
+    mid:
+      x: 0
+      y: 50
+      z: 0
     start:
       x: 10000
       y: 50
@@ -52,6 +57,4 @@ ballOfSteel:
           x:
           y:
           z:
-
-
        

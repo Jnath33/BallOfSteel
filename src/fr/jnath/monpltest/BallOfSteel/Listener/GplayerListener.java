@@ -21,6 +21,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import fr.jnath.monpltest.BallOfSteel.Gstate;
 import fr.jnath.monpltest.BallOfSteel.Main;
 import fr.jnath.monpltest.BallOfSteel.task.GAutoStart;
+import fr.jnath.monpltest.BallOfSteel.task.GDeath;
 
 public class GplayerListener implements Listener {
 	
@@ -39,7 +40,7 @@ public class GplayerListener implements Listener {
 				main.getConfig().getDouble("ballOfSteel.coordonee.start.z"));
 		player.teleport(spawn);
 		player.getInventory().clear();
-		if(!((main.isState(Gstate.WAITING)||main.isState(Gstate.STARTING)))) {
+		if(!(main.getPlayers().size()<=main.playerParTeamDefaut && (main.isState(Gstate.WAITING)||main.isState(Gstate.STARTING)))) {
 			player.setGameMode(GameMode.SPECTATOR);
 			player.sendMessage("La partie est deja lancer !");
 			event.setJoinMessage(null);
@@ -110,15 +111,14 @@ public class GplayerListener implements Listener {
 			
 		}
 		if(player.getHealth() < event.getDamage()) {
-			player.setHealth(20);
 			player.getInventory().clear();
+			player.setHealth(20);
 			Bukkit.broadcastMessage("§c"+player.getName()+"§7 viens de mourir.");
+			GDeath death = new GDeath(player, main);
+			death.runTaskTimer(main, 0, 20);
 			// cette partie de code servira quand les sélection de team et les getTeam marcheron
 			
-			player.teleport(new Location(Bukkit.getWorld(main.getConfig().getString("ballOfSteel.world")),
-					main.getConfig().getDouble("ballOfSteel.equipe."+main.getPlayersTeam().get(player)+".coordonee.spawn.x"),
-					main.getConfig().getDouble("ballOfSteel.equipe."+main.getPlayersTeam().get(player)+".coordonee.spawn.y"), 
-					main.getConfig().getDouble("ballOfSteel.equipe."+main.getPlayersTeam().get(player)+".coordonee.spawn.z")));
+			
 			event.setCancelled(true);
 		}
 		player.setCustomName("§c"+player.getName());

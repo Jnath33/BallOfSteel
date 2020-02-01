@@ -5,6 +5,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.TreeMap;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -23,7 +26,12 @@ public class Main extends JavaPlugin {
  	public Integer playerParTeamDefaut;
  	private TreeMap<String, Integer> _playerParTeam = new TreeMap<String, Integer>();
  	private TreeMap<String, Integer> _pointParTeam = new TreeMap<String, Integer>();
- 	
+ 	public Double midelX = getConfig().getDouble("ballOfSteel.coordonee.mid.x");
+ 	public Double midelZ = getConfig().getDouble("ballOfSteel.coordonee.mid.z");
+ 	public Double range = getConfig().getDouble("ballOfSteel.range");
+ 	public String world = getConfig().getString("ballOfSteel.world");
+ 	public Double hMax = getConfig().getDouble("ballOfSteel.hMax");
+ 	public Double hMin = getConfig().getDouble("ballOfSteel.hMin");
  	
  	public void setState(Gstate state) {
 		this.state = state;
@@ -136,6 +144,17 @@ public class Main extends JavaPlugin {
 		_pointParTeam.put("green", 0);
 		_pointParTeam.put("blue", 0);
 		_pointParTeam.put("yellow", 0);
+		for(Double x =midelX-range; x<midelX+range;x ++) {
+			for(Double z =midelZ-range; z<midelZ+range;z ++) {
+				for(Double y =hMin; y<hMax;y ++) {
+					Block b=new Location(Bukkit.getWorld(world),x,y,z).getBlock();
+					Location to=	new Location(Bukkit.getWorld(world), x, y, z);
+					to.getBlock().setType(b.getType());					
+				}
+			}
+		}
+		
+		
 	}
 	@Override
 	public void onEnable() {
