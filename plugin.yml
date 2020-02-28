@@ -2,3 +2,15 @@ name: BallOfSteel
 version: 0.5
 author: jnath
 main: fr.jnath.monpltest.BallOfSteel.Main
+commands:
+  start:
+    description: permet de lancer le serveurs manuellement
+    permission: start.use
+  verif:
+    description: permet de verifier les joueurs
+    permission: verif.use
+  nokick:
+    description: permet de se co pendant une partie sans être kick
+    permission: nokick.use
+  helpLBoS:
+    description: aider sur le mode de jeu et les commandes

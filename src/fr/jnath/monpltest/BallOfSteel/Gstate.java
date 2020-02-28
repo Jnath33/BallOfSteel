@@ -2,5 +2,5 @@ package fr.jnath.monpltest.BallOfSteel;
 
 public enum Gstate {
 	
-	WAITING, STARTING, PLAYING, FINISH
+	WAITING, STARTING, CHOOSETEAM, PLAYING, FINISH
 }

@@ -16,8 +16,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
 import fr.jnath.monpltest.BallOfSteel.Gstate;
 import fr.jnath.monpltest.BallOfSteel.Main;
 import fr.jnath.monpltest.BallOfSteel.task.GAutoStart;
@@ -30,17 +28,22 @@ public class GplayerListener implements Listener {
 	public GplayerListener(Main main) {
 		this.main = main;
 	}
+
+	public GAutoStart autoStart = new GAutoStart(main);
+	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
-		int playerMax = main.getConfig().getInt("ballOfSteel.nomberOfPlayerParTeam")*4;
+		int playerMax = 20;
 		Player player = event.getPlayer();
 		Location spawn = new Location(Bukkit.getWorld(main.getConfig().getString("ballOfSteel.world")),
 				main.getConfig().getDouble("ballOfSteel.coordonee.start.x"),
 				main.getConfig().getDouble("ballOfSteel.coordonee.start.y"),
 				main.getConfig().getDouble("ballOfSteel.coordonee.start.z"));
+		player.setInvulnerable(true);
+		
 		player.teleport(spawn);
 		player.getInventory().clear();
-		if(!(main.getPlayers().size()<=main.playerParTeamDefaut && (main.isState(Gstate.WAITING)||main.isState(Gstate.STARTING)))) {
+		if(!(main.getPlayers().size()<=20 && (main.isState(Gstate.WAITING)||main.isState(Gstate.STARTING)))) {
 			player.setGameMode(GameMode.SPECTATOR);
 			player.sendMessage("La partie est deja lancer !");
 			event.setJoinMessage(null);
@@ -51,51 +54,21 @@ public class GplayerListener implements Listener {
 		event.setJoinMessage("§7[§eBall of steel§7] §l§c"+player.getName()+"§r§6 a rejoin la partie " + 
 		main.getPlayers().size() + "/" + playerMax);
 		player.setGameMode(GameMode.ADVENTURE);
-		//don des item
-		
-		//item
-		ItemStack redW = new ItemStack(Material.WOOL,1, (byte)14);
-		ItemStack greenW = new ItemStack(Material.WOOL,1, (byte)5);
-		ItemStack blueW = new ItemStack(Material.WOOL,1, (byte)11);
-		ItemStack yelowW = new ItemStack(Material.WOOL,1, (byte)4);
-		
-		//meta
-		ItemMeta redWM = redW.getItemMeta();
-		ItemMeta greenWM = greenW.getItemMeta();
-		ItemMeta blueWM = blueW.getItemMeta();
-		ItemMeta yelowWM = yelowW.getItemMeta();
-		
-
-		//name
-		redWM.setDisplayName("§l§4Red");
-		greenWM.setDisplayName("§l§2Green");
-		blueWM.setDisplayName("§l§1Blue");
-		yelowWM.setDisplayName("§l§eYellow");
-		
-		//replace meta
-		redW.setItemMeta(redWM);
-		greenW.setItemMeta(greenWM);
-		blueW.setItemMeta(blueWM);
-		yelowW.setItemMeta(yelowWM);
-		
-		//update inventory
-		player.getInventory().setItem(0, redW);
-		player.getInventory().setItem(3, blueW);
-		player.getInventory().setItem(5, yelowW);
-		player.getInventory().setItem(8, greenW);
-		player.updateInventory();
 		
 		player.setAllowFlight(false);
 		player.setDisplayName("§c"+player.getName()+"§7");
-		if(main.isState(Gstate.WAITING) && main.getPlayers().size() == playerMax-3) {
-			GAutoStart autoStart = new GAutoStart(main);
+		if(main.isState(Gstate.WAITING) && main.getPlayers().size() == 3) {
 			autoStart.runTaskTimer(main, 0, 20);
 			main.setState(Gstate.STARTING);
 		}
 	}
 	@EventHandler
 	public void onQuit(PlayerQuitEvent event) {
-		System.out.println(main.getConfig().getInt("ballOfSteel.coordonee.start.x"));
+		if(main.isState(Gstate.WAITING)) {
+			if(main.getPlayers().contains(event.getPlayer())) {
+				main.getPlayers().remove(event.getPlayer());
+			}
+		}
 	}
 	
 	
@@ -123,12 +96,12 @@ public class GplayerListener implements Listener {
 		}
 		player.setCustomName("§c"+player.getName());
 	}
-	
 	@EventHandler
 	public void PlayerDropItemEvent​(PlayerDropItemEvent event) {
 		if (main.isState(Gstate.STARTING)||main.isState(Gstate.WAITING)) {
 			event.setCancelled(true);
 		}
+		if (main.isState(Gstate.PLAYING)&& event.getItemDrop().getItemStack().getItemMeta().getDisplayName()=="§7casque") event.setCancelled(true);
 	}
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
@@ -137,10 +110,9 @@ public class GplayerListener implements Listener {
 		ItemStack it= event.getItem();
 		Integer inventorySlot=player.getInventory().getHeldItemSlot();
 		Block itemClickedBlock = event.getClickedBlock();
-		Material itemClickedMaterial = itemClickedBlock.getType();
 		String team = main.getPlayersTeam().get(player);
 		if(it==null)return;
-		if(itM == Material.WOOL && (main.isState(Gstate.STARTING)||main.isState(Gstate.WAITING))) {
+		if(itM == Material.WOOL && (main.isState(Gstate.CHOOSETEAM))) {
 			if(it.getItemMeta().getDisplayName()=="§l§4Red") {
 				main.addPlayerOnTeam(player, "red");
 			}else if(it.getItemMeta().getDisplayName()=="§l§1Blue") {
@@ -151,7 +123,10 @@ public class GplayerListener implements Listener {
 				main.addPlayerOnTeam(player, "yellow");
 			}
 		}
-		if(itemClickedMaterial == Material.BEDROCK && main.isState(Gstate.PLAYING)) {
+		if (itemClickedBlock==null) {
+			return;
+		}
+		if(itemClickedBlock.getType() == Material.BEDROCK && main.isState(Gstate.PLAYING)) {
 			if(itM==Material.DIAMOND) {
 				player.getInventory().clear(inventorySlot);
 				main.pointParTeam().put(team, main.pointParTeam().get(team)+it.getAmount());

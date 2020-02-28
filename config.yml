@@ -1,4 +1,5 @@
 ballOfSteel:
+  lobbyName: "lobby"
   nomberOfPlayerParTeam: 1
   world: "world1"
   time: 1
@@ -23,38 +24,22 @@ ballOfSteel:
           x: 70
           y: 50
           z: 70
-        coffre:
-          x:
-          y:
-          z:
     red:
       coordonee:
         spawn:
           x: -70
           y: 50
           z: 70
-        coffre:
-          x: 
-          y: 
-          z: 
     blue:
       coordonee:
         spawn:
           x: -70
           y: 50
           z: -70
-        coffre:
-          x:
-          y:
-          z:
     green:
       coordonee:
         spawn:
           x: 70
           y: 50
           z: -70
-        coffre:
-          x:
-          y:
-          z:
        

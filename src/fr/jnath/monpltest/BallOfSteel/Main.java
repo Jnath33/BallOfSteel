@@ -1,17 +1,30 @@
 package fr.jnath.monpltest.BallOfSteel;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.TreeMap;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
+import org.bukkit.ChatColor;
+import org.bukkit.Color;
+import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.google.common.io.ByteArrayDataOutput;
+import com.google.common.io.ByteStreams;
+
 import fr.jnath.monpltest.BallOfSteel.Listener.GplayerListener;
+import fr.jnath.monpltest.BallOfSteel.commands.Start;
+import fr.jnath.monpltest.BallOfSteel.commands.help;
+import fr.jnath.monpltest.BallOfSteel.commands.noKick;
+import fr.jnath.monpltest.BallOfSteel.commands.verif;
 
 public class Main extends JavaPlugin {
 	Comparator<Player> comparePlayerbyName = new Comparator<Player>() {
@@ -32,12 +45,22 @@ public class Main extends JavaPlugin {
  	public String world = getConfig().getString("ballOfSteel.world");
  	public Double hMax = getConfig().getDouble("ballOfSteel.hMax");
  	public Double hMin = getConfig().getDouble("ballOfSteel.hMin");
+ 	public fr.jnath.monpltest.BallOfSteel.util.rejen rejenWorld = new fr.jnath.monpltest.BallOfSteel.util.rejen();
  	
  	public void setState(Gstate state) {
 		this.state = state;
 	}
 	
- 	
+ 	public void teleportServer(Player player, String server) {
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeUTF("Connect");
+        out.writeUTF(server);
+        
+      //Envoyer un message au joueur pour le pr�venir (FACULTATIF)
+        player.sendMessage(ChatColor.GREEN+"Vous �tes envoy� sur"+ChatColor.GOLD+server);
+
+        player.sendPluginMessage(this, "BungeeCord", out.toByteArray());
+	}
 	
 	public boolean isState(Gstate state) {
 		return state==this.state;
@@ -53,12 +76,36 @@ public class Main extends JavaPlugin {
 	
 	public TreeMap<String, Integer> playerParTeam(){
 		return _playerParTeam;
+	 	
 	}
 	
 	public TreeMap<Player, String> getPlayersTeam(){
 		return _team;
 	}
-	
+	public void setDefaltStuff(Player pls){
+		pls.getInventory().clear();
+		ItemStack helmet=new ItemStack(Material.LEATHER_HELMET,1);
+		LeatherArmorMeta helmetM=(LeatherArmorMeta) helmet.getItemMeta();
+		if(getPlayersTeam().get(pls)=="red") {
+			helmetM.setColor(Color.RED);
+		} else if (getPlayersTeam().get(pls)=="green") {
+			helmetM.setColor(Color.GREEN);
+		}else if (getPlayersTeam().get(pls)=="blue") {
+			helmetM.setColor(Color.BLUE);
+		}else if (getPlayersTeam().get(pls)=="yellow") {
+			helmetM.setColor(Color.YELLOW);
+		}
+		helmetM.setDisplayName("§7casque");
+		helmet.setItemMeta(helmetM);
+		pls.getInventory().setHelmet(helmet);
+		pls.getInventory().setItem(8, new ItemStack(Material.GLASS, 64));
+		pls.getInventory().addItem(new ItemStack(Material.IRON_PICKAXE, 1));
+		pls.getInventory().addItem(new ItemStack(Material.WOOD_SWORD, 1));
+		pls.getInventory().addItem(new ItemStack(Material.IRON_AXE, 1));
+		pls.updateInventory();
+		pls.setHealth(20);
+		pls.setFoodLevel(20);
+	}
 	public void addPlayerOnTeam(Player player, String team){
 		String curentPlayerTeam = "non";
 		if (getPlayersTeam().containsKey(player)) {
@@ -144,17 +191,20 @@ public class Main extends JavaPlugin {
 		_pointParTeam.put("green", 0);
 		_pointParTeam.put("blue", 0);
 		_pointParTeam.put("yellow", 0);
-		for(Double x =midelX-range; x<midelX+range;x ++) {
-			for(Double z =midelZ-range; z<midelZ+range;z ++) {
-				for(Double y =hMin; y<hMax;y ++) {
-					Block b=new Location(Bukkit.getWorld(world),x,y,z).getBlock();
-					Location to=	new Location(Bukkit.getWorld(world), x, y, z);
-					to.getBlock().setType(b.getType());					
-				}
-			}
+	}
+
+	public void rejen() {
+		World world = Bukkit.getWorld(this.world);
+		Bukkit.unloadWorld(world, false);
+		File worldFile = new File(world.getName());
+		File worldCopyFile = new File(this.world+"-copy");
+		rejenWorld.deleateWorld(worldFile);
+		try {
+			rejenWorld.copyWorld(worldCopyFile, worldFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		
 	}
 	@Override
 	public void onEnable() {
@@ -164,7 +214,15 @@ public class Main extends JavaPlugin {
 		pm.registerEvents(new GplayerListener(this), this);
 		playerParTeamDefaut = this.getConfig().getInt("ballOfSteel.nomberOfPlayerParTeam");
 		restart();
+		this.getCommand("start").setExecutor(new Start(this));
+		this.getCommand("verif").setExecutor(new verif());
+		this.getCommand("nokick").setExecutor(new noKick());
+		this.getCommand("helpLBoS").setExecutor(new help());
 		}
+	@Override
+	public void onDisable() {
+		rejen();
+	}
 	
 	
 }
