@@ -1,15 +1,15 @@
 # BallOfSteel
 
 Langage :
-1. English
-2. Français
-3. Español
+- English
+- Français
+- Español
 
-1. English
+- English
 This is a ball of steel minecraft plugin. This concept has been developed by minefield. I made a plugin for what would be interesting. This plugin works under bungee cord.
 
-2. Français
+- Français
 Ceci est un ball of steel minecraft plugin. Ce concept à été développer pas minefield. J'ai refait un plugin pour se qui serai intéresser. Ce plugin fonctionne sous bungee cord.
 
-3. Español
+- Español
 esta es una bola de acero de plugin de minería. Este concepto ha sido desarrollado por el campo de minas. Hice un plugin para lo que sería interesante. Este enchufe funciona bajo el cable elástico.
