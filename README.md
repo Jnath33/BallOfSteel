@@ -1,9 +1,10 @@
 # BallOfSteel
 
 Langage :
-1- English
-2- Français
-3- Español
+
+1. English
+2. Français
+3. Español
 
 1- English :
 This is a ball of steel minecraft plugin. This concept has been developed by minefield. I made a plugin for what would be interesting. This plugin works under bungee cord.
