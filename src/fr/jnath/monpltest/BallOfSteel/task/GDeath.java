@@ -26,11 +26,9 @@ public class GDeath extends BukkitRunnable{
 					main.getConfig().getDouble("ballOfSteel.equipe."+main.getPlayersTeam().get(player)+".coordonee.spawn.x"),
 					main.getConfig().getDouble("ballOfSteel.equipe."+main.getPlayersTeam().get(player)+".coordonee.spawn.y"), 
 					main.getConfig().getDouble("ballOfSteel.equipe."+main.getPlayersTeam().get(player)+".coordonee.spawn.z")));
-			player.setInvulnerable(true);
 			main.setDefaltStuff(player);
 		}
 		if(timeInS <= -3) {
-			player.setInvulnerable(false);
 			cancel();
 		}
 	}

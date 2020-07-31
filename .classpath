@@ -6,6 +6,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="/home/nathan/Téléchargements/servTest/ServtestPL/serveurs/serv1/serv1.jar"/>
+	<classpathentry kind="lib" path="/home/nathan/Téléchargements/spigot-1.8.8-R0.1-SNAPSHOT-latest.jar"/>
+	<classpathentry kind="lib" path="/home/nathan/Compétition/LordOfRingUHC/plugins/utils.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

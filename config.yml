@@ -1,6 +1,5 @@
 ballOfSteel:
   lobbyName: "lobby"
-  nomberOfPlayerParTeam: 1
   world: "world1"
   time: 1
   range: 100
@@ -13,10 +12,11 @@ ballOfSteel:
       x: 10000
       y: 50
       z: 0
-    finish:
-      x: 
-      y: 
-      z: 
+  protection:
+    equipe:
+      radius: 4
+    mid:
+      radius: 10
   equipe:
     yellow:
       coordonee:

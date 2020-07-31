@@ -8,11 +8,9 @@ import fr.jnath.monpltest.BallOfSteel.Main;
 
 public class GAutoStart extends BukkitRunnable{
 	int timeInS = 180;
-	int nbJoueurParEquipe;
 	private Main main;
 	public GAutoStart(Main _main) {
 		this.main = _main;
-		nbJoueurParEquipe = _main.getConfig().getInt("ballOfSteel.nomberOfPlayerParTeam");
 	}
 	@Override
 	public void run() {
@@ -40,7 +38,7 @@ public class GAutoStart extends BukkitRunnable{
 			cancel();
 		}
 		if (timeInS==10 || timeInS==5) {
-			Bukkit.broadcastMessage("La partie commence dans §c" + timeInS+10+ "s");
+			Bukkit.broadcastMessage("La partie commence dans §c" + (timeInS+10)+ "s");
 		}
 		timeInS --;
 		

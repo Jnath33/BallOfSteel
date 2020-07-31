@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -20,6 +22,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
+import fr.jnath.Utils.ScoreboardSign;
 import fr.jnath.monpltest.BallOfSteel.Listener.GplayerListener;
 import fr.jnath.monpltest.BallOfSteel.commands.Start;
 import fr.jnath.monpltest.BallOfSteel.commands.help;
@@ -39,6 +42,9 @@ public class Main extends JavaPlugin {
  	public Integer playerParTeamDefaut;
  	private TreeMap<String, Integer> _playerParTeam = new TreeMap<String, Integer>();
  	private TreeMap<String, Integer> _pointParTeam = new TreeMap<String, Integer>();
+ 	public HashMap<Player, ScoreboardSign> scoreBoard = new HashMap<Player, ScoreboardSign>();
+ 	public HashMap<Player, Integer> playerKill = new HashMap<Player, Integer>();
+ 	public HashMap<Player, ImmutablePair<Player, Long>> lastHit = new HashMap<Player, ImmutablePair<Player, Long>>();
  	public Double midelX = getConfig().getDouble("ballOfSteel.coordonee.mid.x");
  	public Double midelZ = getConfig().getDouble("ballOfSteel.coordonee.mid.z");
  	public Double range = getConfig().getDouble("ballOfSteel.range");
@@ -56,8 +62,8 @@ public class Main extends JavaPlugin {
         out.writeUTF("Connect");
         out.writeUTF(server);
         
-      //Envoyer un message au joueur pour le pr�venir (FACULTATIF)
-        player.sendMessage(ChatColor.GREEN+"Vous �tes envoy� sur"+ChatColor.GOLD+server);
+      //Envoyer un message au joueur pour le prévenir (FACULTATIF)
+        player.sendMessage(ChatColor.GREEN+"Vous etes envoyé sur "+ChatColor.GOLD+server);
 
         player.sendPluginMessage(this, "BungeeCord", out.toByteArray());
 	}
@@ -210,6 +216,7 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 		saveDefaultConfig();
 		System.out.println("Plugin de ball of steel actif");
+		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 		org.bukkit.plugin.PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(new GplayerListener(this), this);
 		playerParTeamDefaut = this.getConfig().getInt("ballOfSteel.nomberOfPlayerParTeam");
