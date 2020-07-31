@@ -96,8 +96,10 @@ public class GAutoStart2 extends BukkitRunnable{
 				else sc.setLine(3, "§2Vert  : 0");
 				if(_main.getPlayersTeam().get(pls)=="yellow")sc.setLine(4, "§eJaune : 0 §7§lYOU");
 				else sc.setLine(4, "§eJaune : 0");
-				sc.setLine(5, "Temps restant :");
-				sc.setLine(6, "Kill :");
+				sc.setLine(5, "");
+				sc.setLine(6, "§1Temps restant : §c0:0");
+				sc.setLine(7, "§1Kill : 0");
+				_main.playerKill.put(pls, 0);
 				
 				//tp au spawn
 				pls.setBedSpawnLocation(new Location(Bukkit.getWorld(_main.getConfig().getString("ballOfSteel.world")),

@@ -93,11 +93,14 @@ public class GplayerListener implements Listener {
 		if(player.getHealth() < event.getDamage()) {
 			player.getInventory().clear();
 			player.setHealth(20);
-			if(main.lastHit.get(player) == null)
+			ImmutablePair<Player,Long> lastHit = main.lastHit.get(player);
+			if(lastHit == null)
 				Bukkit.broadcastMessage("§c"+player.getName()+"§7 viens de mourir.");
 			else {
-				Bukkit.broadcastMessage("§c"+player.getName()+"§7 à été tué par "+main.lastHit.get(player).left+".");
-				main.playerKill.put(main.lastHit.get(player).left,main.playerKill.get(main.lastHit.get(player).left)+1);
+				Bukkit.broadcastMessage("§c"+player.getName()+"§7 à été tué par §c"+lastHit.left.getName()+".");
+				main.playerKill.put(lastHit.left,main.playerKill.get(lastHit.left)+1);
+				ScoreboardSign sc = main.scoreBoard.get(lastHit.left);
+				sc.setLine(7, "§1Kill : "+main.playerKill.get(lastHit.left));
 			}
 			GDeath death = new GDeath(player, main);
 			death.runTaskTimer(main, 0, 20);
