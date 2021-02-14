@@ -1,4 +1,4 @@
-package fr.jnath.monpltest.BallOfSteel;
+package fr.jnath.ballOfSteel.game;
 
 public enum Gstate {
 	

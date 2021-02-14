@@ -1,17 +1,17 @@
-package fr.jnath.monpltest.BallOfSteel.commands;
+package fr.jnath.ballOfSteel.bukkit.plugin.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import fr.jnath.monpltest.BallOfSteel.Main;
-import fr.jnath.monpltest.BallOfSteel.Listener.GplayerListener;
-import fr.jnath.monpltest.BallOfSteel.task.GAutoStart2;
+import fr.jnath.ballOfSteel.bukkit.plugin.BallOfSteel;
+import fr.jnath.ballOfSteel.bukkit.plugin.listeners.GameListener;
+import fr.jnath.ballOfSteel.task.GAutoStart2;
 
 public class Start implements CommandExecutor {
-	Main main;
-	GplayerListener listener;
-	public Start(Main main) {
+	BallOfSteel main;
+	GameListener listener;
+	public Start(BallOfSteel main) {
 		this.main=main;
 	}
 

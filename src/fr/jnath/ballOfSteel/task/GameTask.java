@@ -1,5 +1,6 @@
-package fr.jnath.monpltest.BallOfSteel.task;
+package fr.jnath.ballOfSteel.task;
 
+import fr.jnath.ballOfSteel.game.Game;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -8,13 +9,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import fr.jnath.Utils.ScoreboardSign;
-import fr.jnath.monpltest.BallOfSteel.Main;
+import fr.jnath.ballOfSteel.bukkit.plugin.BallOfSteel;
 
-public class Game extends BukkitRunnable{
+public class GameTask extends BukkitRunnable{
 	Integer timeInMin;
 	Integer timeInSec = 0;
-	Main main;
-	public Game(Main main) {
+	BallOfSteel main;
+	Game game = BallOfSteel.getGame();
+	public GameTask(BallOfSteel main) {
 		this.main=main;
 		timeInMin=main.getConfig().getInt("ballOfSteel.time");
 	}
@@ -45,7 +47,7 @@ public class Game extends BukkitRunnable{
 					Bukkit.broadcastMessage("§c"+pls.getName()+"§7 viens de mourir.");
 				else {
 					Bukkit.broadcastMessage("§c"+pls.getName()+"§7 à été tué par §c"+lastHit.left.getName()+".");
-					main.playerKill.put(lastHit.left,main.playerKill.get(lastHit.left)+1);
+					game.get.playerKill.put(lastHit.left,main.playerKill.get(lastHit.left)+1);
 					ScoreboardSign sc = main.scoreBoard.get(lastHit.left);
 					sc.setLine(7, "§1Kill : "+main.playerKill.get(lastHit.left));
 					int diamond = 0;

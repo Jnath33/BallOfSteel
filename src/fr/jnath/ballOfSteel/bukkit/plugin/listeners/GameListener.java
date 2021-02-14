@@ -1,4 +1,4 @@
-package fr.jnath.monpltest.BallOfSteel.Listener;
+package fr.jnath.ballOfSteel.bukkit.plugin.listeners;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.bukkit.Bukkit;
@@ -19,49 +19,22 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
 import fr.jnath.Utils.ScoreboardSign;
-import fr.jnath.monpltest.BallOfSteel.Gstate;
-import fr.jnath.monpltest.BallOfSteel.Main;
-import fr.jnath.monpltest.BallOfSteel.task.GAutoStart;
-import fr.jnath.monpltest.BallOfSteel.task.GDeath;
-import fr.jnath.monpltest.BallOfSteel.task.HitTime;
+import fr.jnath.ballOfSteel.game.Gstate;
+import fr.jnath.ballOfSteel.bukkit.plugin.BallOfSteel;
+import fr.jnath.ballOfSteel.game.waiting.GAutoStart;
+import fr.jnath.ballOfSteel.task.GDeath;
+import fr.jnath.ballOfSteel.task.HitTime;
 
-public class GplayerListener implements Listener {
-	public GAutoStart autoStart;
-	private Main main;
+public class GameListener implements Listener {
+	private BallOfSteel main;
 	
-	public GplayerListener(Main main) {
-		this.main = main;
-		autoStart = new GAutoStart(main);
+	public GameListener() {
+		this.main = BallOfSteel.INSTANCE;
 	}
-	
+
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
-		int playerMax = 20;
-		Player player = event.getPlayer();
-		Location spawn = new Location(Bukkit.getWorld(main.getConfig().getString("ballOfSteel.world")),
-				main.getConfig().getDouble("ballOfSteel.coordonee.start.x"),
-				main.getConfig().getDouble("ballOfSteel.coordonee.start.y"),
-				main.getConfig().getDouble("ballOfSteel.coordonee.start.z"));
-		
-		player.teleport(spawn);
-		player.getInventory().clear();
-		if(!(main.getPlayers().size()<=20 && (main.isState(Gstate.WAITING)||main.isState(Gstate.STARTING)))) {
-			player.setGameMode(GameMode.SPECTATOR);
-			player.sendMessage("La partie est deja lancer !");
-			event.setJoinMessage(null);
-			return;	
-		}
-		
-		if(!main.getPlayers().contains(player)) main.getPlayers().add(player);
-		event.setJoinMessage("§7[§eBall of steel§7] §l§c"+player.getName()+"§r§6 a rejoin la partie " + main.getPlayers().size() + "/" + playerMax);
-		player.setGameMode(GameMode.ADVENTURE);
-		
-		player.setAllowFlight(false);
-		player.setDisplayName("§c"+player.getName()+"§7");
-		if(main.isState(Gstate.WAITING) && main.getPlayers().size() == 3) {
-			autoStart.runTaskTimer(main, 0, 20);
-			main.setState(Gstate.STARTING);
-		}
+		if(game.)
 	}
 	@EventHandler
 	public void onQuit(PlayerQuitEvent event) {

@@ -1,4 +1,4 @@
-package fr.jnath.monpltest.BallOfSteel.task;
+package fr.jnath.ballOfSteel.task;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -6,13 +6,13 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import fr.jnath.monpltest.BallOfSteel.Main;
+import fr.jnath.ballOfSteel.bukkit.plugin.BallOfSteel;
 
 public class GDeath extends BukkitRunnable{
 	int timeInS = 3;
 	Player player;
-	Main main;
-	public GDeath(Player player, Main main) {
+	BallOfSteel main;
+	public GDeath(Player player, BallOfSteel main) {
 		this.player=player;
 		player.setGameMode(GameMode.SPECTATOR);
 		this.main=main;

@@ -1,4 +1,4 @@
-package fr.jnath.monpltest.BallOfSteel.commands;
+package fr.jnath.ballOfSteel.bukkit.plugin.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

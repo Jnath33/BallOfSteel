@@ -1,6 +1,18 @@
 ballOfSteel:
   lobbyName: "lobby"
   world: "world1"
+  generation:
+    diamondPersantage: 4
+    blockDontFillWithDiamond:
+      - 0
+      - 5
+      - 135
+      - 164
+      - 136
+      - 53
+      - 134
+      - 54
+      - 7
   time: 1
   range: 100
   coordonee:
@@ -16,7 +28,7 @@ ballOfSteel:
     equipe:
       radius: 4
     mid:
-      radius: 10
+      radius: 5
   equipe:
     yellow:
       coordonee:

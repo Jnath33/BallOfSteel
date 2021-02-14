@@ -1,16 +1,16 @@
-package fr.jnath.monpltest.BallOfSteel.task;
+package fr.jnath.ballOfSteel.task;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import fr.jnath.monpltest.BallOfSteel.Main;
+import fr.jnath.ballOfSteel.bukkit.plugin.BallOfSteel;
 
 public class GTimer extends BukkitRunnable{
 	Integer timeInMin;
 	Integer timeInSec = 0;
-	Main main;
-	public GTimer(Main main) {
+	BallOfSteel main;
+	public GTimer(BallOfSteel main) {
 		this.main=main;
 		timeInMin=main.getConfig().getInt("ballOfSteel.time");
 	}

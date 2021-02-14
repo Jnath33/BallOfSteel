@@ -1,16 +1,16 @@
-package fr.jnath.monpltest.BallOfSteel;
+package fr.jnath.ballOfSteel.bukkit.plugin;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TreeMap;
 
+import fr.jnath.ballOfSteel.game.Game;
+import fr.jnath.ballOfSteel.game.Gstate;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -23,35 +23,19 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
 import fr.jnath.Utils.ScoreboardSign;
-import fr.jnath.monpltest.BallOfSteel.Listener.GplayerListener;
-import fr.jnath.monpltest.BallOfSteel.commands.Start;
-import fr.jnath.monpltest.BallOfSteel.commands.help;
-import fr.jnath.monpltest.BallOfSteel.commands.noKick;
-import fr.jnath.monpltest.BallOfSteel.commands.verif;
+import fr.jnath.ballOfSteel.bukkit.plugin.listeners.GameListener;
+import fr.jnath.ballOfSteel.bukkit.plugin.commands.Start;
+import fr.jnath.ballOfSteel.bukkit.plugin.commands.help;
+import fr.jnath.ballOfSteel.bukkit.plugin.commands.noKick;
+import fr.jnath.ballOfSteel.bukkit.plugin.commands.verif;
 
-public class Main extends JavaPlugin {
-	Comparator<Player> comparePlayerbyName = new Comparator<Player>() {
-		@Override
-		public int compare(Player o1, Player o2) {
-			return o1.getName().compareTo(o2.getName());
-		}
-	};
+public class BallOfSteel extends JavaPlugin {
+
+	public static BallOfSteel INSTANCE;
+	private static Game game;
 	private List<Player> playersOnWating = new ArrayList<>();
-	private TreeMap<Player, String> _team = new TreeMap<Player,String>(comparePlayerbyName);
- 	private Gstate state;
- 	public Integer playerParTeamDefaut;
- 	private TreeMap<String, Integer> _playerParTeam = new TreeMap<String, Integer>();
- 	private TreeMap<String, Integer> _pointParTeam = new TreeMap<String, Integer>();
- 	public HashMap<Player, ScoreboardSign> scoreBoard = new HashMap<Player, ScoreboardSign>();
- 	public HashMap<Player, Integer> playerKill = new HashMap<Player, Integer>();
  	public HashMap<Player, ImmutablePair<Player, Long>> lastHit = new HashMap<Player, ImmutablePair<Player, Long>>();
- 	public Double midelX = getConfig().getDouble("ballOfSteel.coordonee.mid.x");
- 	public Double midelZ = getConfig().getDouble("ballOfSteel.coordonee.mid.z");
- 	public Double range = getConfig().getDouble("ballOfSteel.range");
- 	public String world = getConfig().getString("ballOfSteel.world");
- 	public Double hMax = getConfig().getDouble("ballOfSteel.hMax");
- 	public Double hMin = getConfig().getDouble("ballOfSteel.hMin");
- 	public fr.jnath.monpltest.BallOfSteel.util.rejen rejenWorld = new fr.jnath.monpltest.BallOfSteel.util.rejen();
+
  	
  	public void setState(Gstate state) {
 		this.state = state;
@@ -61,10 +45,6 @@ public class Main extends JavaPlugin {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("Connect");
         out.writeUTF(server);
-        
-      //Envoyer un message au joueur pour le prévenir (FACULTATIF)
-        player.sendMessage(ChatColor.GREEN+"Vous etes envoyé sur "+ChatColor.GOLD+server);
-
         player.sendPluginMessage(this, "BungeeCord", out.toByteArray());
 	}
 	
@@ -77,11 +57,11 @@ public class Main extends JavaPlugin {
 	}
 	
 	public TreeMap<String, Integer> pointParTeam(){
-		return _pointParTeam;
+		return pointParTeam;
 	}
 	
 	public TreeMap<String, Integer> playerParTeam(){
-		return _playerParTeam;
+		return playerParTeam;
 	 	
 	}
 	
@@ -118,9 +98,9 @@ public class Main extends JavaPlugin {
 			curentPlayerTeam = getPlayersTeam().get(player);
 		}
 		if ("red"==team) {
-			if (_playerParTeam.get("red")<playerParTeamDefaut) {
+			if (playerParTeam.get("red")<playerParTeamDefaut) {
 				getPlayersTeam().put(player, "red");
-				_playerParTeam.put("red", _playerParTeam.get("red")+1);
+				playerParTeam.put("red", playerParTeam.get("red")+1);
 				rmPlayerOnTeam(player, curentPlayerTeam);
 				return;
 			}
@@ -130,9 +110,9 @@ public class Main extends JavaPlugin {
 			}
 		}
 		else if ("blue"==team) {
-			if (_playerParTeam.get("blue")<playerParTeamDefaut) {
+			if (playerParTeam.get("blue")<playerParTeamDefaut) {
 				getPlayersTeam().put(player, "blue");
-				_playerParTeam.put("blue", _playerParTeam.get("blue")+1);
+				playerParTeam.put("blue", playerParTeam.get("blue")+1);
 				rmPlayerOnTeam(player, curentPlayerTeam);
 				return;
 			}
@@ -142,9 +122,9 @@ public class Main extends JavaPlugin {
 			}
 		}
 		else if ("green"==team) {
-			if (_playerParTeam.get("green")<playerParTeamDefaut) {
+			if (playerParTeam.get("green")<playerParTeamDefaut) {
 				getPlayersTeam().put(player, "green");
-				_playerParTeam.put("green", _playerParTeam.get("green")+1);
+				playerParTeam.put("green", playerParTeam.get("green")+1);
 				rmPlayerOnTeam(player, curentPlayerTeam);
 				return;
 			}
@@ -154,9 +134,9 @@ public class Main extends JavaPlugin {
 			}
 		}
 		else if ("yellow"==team) {
-			if (_playerParTeam.get("yellow")<playerParTeamDefaut) {
+			if (playerParTeam.get("yellow")<playerParTeamDefaut) {
 				getPlayersTeam().put(player, "yellow");
-				_playerParTeam.put("yellow", _playerParTeam.get("yellow")+1);
+				playerParTeam.put("yellow", playerParTeam.get("yellow")+1);
 				rmPlayerOnTeam(player, curentPlayerTeam);
 				return;
 			}
@@ -170,33 +150,33 @@ public class Main extends JavaPlugin {
 	
 	public void rmPlayerOnTeam(Player player, String team) {
 		if ("red"==team) {
-			_playerParTeam.put("red", _playerParTeam.get("red")-1);
+			playerParTeam.put("red", playerParTeam.get("red")-1);
 		}
 		else if ("blue"==team) {
-			_playerParTeam.put("blue", _playerParTeam.get("blue")-1);
+			playerParTeam.put("blue", playerParTeam.get("blue")-1);
 		}
 		else if ("green"==team) {
-			_playerParTeam.put("green", _playerParTeam.get("green")-1);
+			playerParTeam.put("green", playerParTeam.get("green")-1);
 		}
 		else if ("yellow"==team) {
-			_playerParTeam.put("yellow", _playerParTeam.get("yellow")-1);
+			playerParTeam.put("yellow", playerParTeam.get("yellow")-1);
 		}
 		return;
 	}
 	
-	public void restart() {
+	public void init() {
 		setState(Gstate.WAITING);
 		getPlayersTeam().clear();
 		getPlayers().clear();
-		_playerParTeam.clear();
-		_playerParTeam.put("red", 0);
-		_playerParTeam.put("green", 0);
-		_playerParTeam.put("blue", 0);
-		_playerParTeam.put("yellow", 0);
-		_pointParTeam.put("red", 0);
-		_pointParTeam.put("green", 0);
-		_pointParTeam.put("blue", 0);
-		_pointParTeam.put("yellow", 0);
+		playerParTeam.clear();
+		playerParTeam.put("red", 0);
+		playerParTeam.put("green", 0);
+		playerParTeam.put("blue", 0);
+		playerParTeam.put("yellow", 0);
+		pointParTeam.put("red", 0);
+		pointParTeam.put("green", 0);
+		pointParTeam.put("blue", 0);
+		pointParTeam.put("yellow", 0);
 	}
 
 	public void rejen() {
@@ -214,13 +194,23 @@ public class Main extends JavaPlugin {
 	}
 	@Override
 	public void onEnable() {
+ 		//save config
 		saveDefaultConfig();
+
+		//send message plugin actif
 		System.out.println("Plugin de ball of steel actif");
+
+		//get BungeeCord plugin message channel
 		getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+
+		//get spigot plugin manager
 		org.bukkit.plugin.PluginManager pm = getServer().getPluginManager();
-		pm.registerEvents(new GplayerListener(this), this);
+		//init listeners
+		pm.registerEvents(new GameListener(this), this);
+
+		//init variable
 		playerParTeamDefaut = this.getConfig().getInt("ballOfSteel.nomberOfPlayerParTeam");
-		restart();
+		init();
 		this.getCommand("start").setExecutor(new Start(this));
 		this.getCommand("verif").setExecutor(new verif());
 		this.getCommand("nokick").setExecutor(new noKick());
@@ -230,6 +220,8 @@ public class Main extends JavaPlugin {
 	public void onDisable() {
 		rejen();
 	}
-	
-	
+
+	public static Game getGame() {
+		return game;
+	}
 }

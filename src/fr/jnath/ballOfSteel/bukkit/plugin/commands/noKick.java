@@ -1,11 +1,11 @@
-package fr.jnath.monpltest.BallOfSteel.commands;
+package fr.jnath.ballOfSteel.bukkit.plugin.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class help implements CommandExecutor {
+public class noKick implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command name, String arg0, String[] arg1) {
@@ -14,5 +14,4 @@ public class help implements CommandExecutor {
 		}
 		return false;
 	}
-
 }
